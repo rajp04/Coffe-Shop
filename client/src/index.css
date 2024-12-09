@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bellefair&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.welcomeFont {
+    font-family: "Great Vibes", cursive;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.scroll-hidden::-webkit-scrollbar {
+    width: 1px !important;
+    color: white;
+    background-color: white;
+    height: 3px;
+}
+
+.widhth {
+    width: 98% !important;
+    margin: auto !important;
+}
+
+.slick-dots {
+    margin-bottom: -40px !important;
+}
+
+.slick-dots li.slick-active button:before{
+    color: white!important;
+}
+
+.slick-dots li button:before{
+    color: white!important;
+}
+
+.logo-img path {
+  fill: #fff;
+}
+
+.slick-dots li button:before{
+    font-size: 20px!important;
+}
