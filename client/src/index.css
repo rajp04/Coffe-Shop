@@ -42,3 +42,10 @@
 .slick-dots li button:before{
     font-size: 20px!important;
 }
+
+.slick-dots li button:before{
+    content: ''!important;
+    height: 5px!important;
+    width: 30px!important;
+    background-color: white!important;
+}

@@ -14,6 +14,8 @@ import Cutwhite from '../../assets/menu/cutwhite.svg'
 import BgMenu from '../../assets/menu/bgmenuimg.png'
 import sm1 from '../../assets/menu/smi1.png'
 import sm2 from '../../assets/menu/smi2.png'
+import { FaChevronLeft } from "react-icons/fa";
+import { FaChevronRight } from "react-icons/fa";
 
 function Menu() {
   return (
@@ -297,9 +299,15 @@ function Menu() {
       </div>
 
       <div className='grid grid-cols-4 pb-14'>
-        <div className='col-span-1 bg-[#F4EEE4] flex flex-col items-center justify-center'>
-          <h1 className='font-[Bellefair] text-[40px] text-[#C5A572]'>Special Menu</h1>
-          <p className='opacity-60'>Occaecati Cum, Sunt Ducimus, Perspiciatis.</p>
+        <div className='col-span-1 bg-[#F4EEE4] flex flex-col xl:items-center xl:justify-center xl:ps-0 ps-2 relative'>
+          <h1 className='font-[Bellefair] lg:text-[40px] text-[30px] text-[#C5A572]'>Special Menu</h1>
+          <p className='opacity-60 pb-5'>Occaecati Cum, Sunt Ducimus, Perspiciatis.</p>
+          <div className='xl:p-5 p-3 bg-white text-[#C5A572] text-center absolute bottom-0 xl:right-14 right-10 cursor-pointer'>
+            <FaChevronLeft />
+          </div>
+          <div className='xl:p-5 p-3 bg-[#C5A572] text-white text-center absolute bottom-0 right-0 cursor-pointer'>
+            <FaChevronRight />
+          </div>
         </div>
         <div className='col-span-1 '>
           <img src={sm1} alt="sm1" />
@@ -307,9 +315,15 @@ function Menu() {
         <div className='col-span-1 '>
           <img src={sm2} alt="sm2" />
         </div>
-         <div className='col-span-1 bg-[#F4EEE4] flex flex-col items-center justify-center'>
-          <h1 className='font-[Bellefair] text-[40px] text-[#C5A572]'>Coffee Of The Day</h1>
-          <p className='opacity-60'>Architecto Mollitia, Asperiores Earum.</p>
+        <div className='col-span-1 bg-[#F4EEE4] flex flex-col xl:items-center xl:justify-center relative xl:ps-0 ps-2'>
+          <h1 className='font-[Bellefair] lg:text-[40px] text-[30px] text-[#C5A572]'>Coffee Of The Day</h1>
+          <p className='opacity-60 pb-5'>Architecto Mollitia, Asperiores Earum.</p>
+          <div className='xl:p-5 p-3 bg-white text-[#C5A572] text-center absolute bottom-0 xl:left-14 left-10 cursor-pointer'>
+            <FaChevronRight />
+          </div>
+          <div className='xl:p-5 p-3 bg-[#C5A572] text-white text-center absolute bottom-0 left-0 cursor-pointer'>
+            <FaChevronLeft />
+          </div>
         </div>
       </div>
 

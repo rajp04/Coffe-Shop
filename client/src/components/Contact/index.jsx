@@ -2,9 +2,9 @@ import React from 'react'
 import Header from '../Header'
 import Footer from '../Footer'
 import Banner from '../../assets/footerbg.png'
-import { IoLocationOutline } from "react-icons/io5";
 import { FiPhoneCall } from 'react-icons/fi';
 import { MdOutlineEmail } from 'react-icons/md';
+import { GrLocation } from 'react-icons/gr';
 
 function Contact() {
     return (
@@ -22,15 +22,15 @@ function Contact() {
 
             {/* Contact */}
             <div className='w-[85%] m-auto pt-20'>
-                <div className='grid grid-cols-10 gap-10'>
-                    <div className='col-span-4'>
+                <div className='grid md:grid-cols-10 grid-cols-1 gap-10'>
+                    <div className='md:col-span-4 col-span-1'>
                         <h1 className='text-[#C5A572] text-[22px]'>CONTACT US</h1>
                         <h1 className='font-[Bellefair] text-[45px]'>Get In Touch</h1>
                         <div className='text-[24px] flex items-start space-x-5 text-black opacity-60 pb-3'>
-                            <IoLocationOutline className='text-[30px] pt-2' />
-                            <p className='w-[80%]'>2839 Old Dear Lane New York NY 10023 United States</p>
+                            <GrLocation className='text-[30px] text-wrap pt-2' />
+                            <p className='lg:w-[80%] w-auto'>2839 Old Dear Lane New York NY 10023 United States</p>
                         </div>
-                        <div className='text-[24px] flex items-center space-x-5 text-black opacity-60 pb-3'>
+                        <div className='lg:text-[24px] text-[21px] flex items-center space-x-5 text-black opacity-60 pb-3'>
                             <FiPhoneCall />
                             <p>+ (0712) 819 79 555</p>
                         </div>
@@ -49,11 +49,22 @@ function Contact() {
                             <p>09:00 AM - 05:00 PM</p>
                         </div>
                     </div>
-                    <div className='col-span-6'>
-                        
+                    <div className='md:col-span-6 col-span-1'>
+                        <iframe
+                            title="Google Map Location"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3671.4078661723725!2d72.50773629999999!3d23.045503900000003!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x395e84ac539ac151%3A0x6acae7cc1aec8366!2sExcelsior%20Technologies%C2%AE!5e0!3m2!1sen!2sin!4v1733846566599!5m2!1sen!2sin"
+                            width="100%"
+                            height="400"
+                            style={{ border: 0 }}
+                            allowFullScreen=""
+                            loading="lazy"
+                            referrerPolicy="no-referrer-when-downgrade"
+                        ></iframe>
                     </div>
+
                 </div>
             </div>
+
 
             {/* Send Message */}
             <div className='h-auto sm:p-10 p-5 w-[85%] m-auto bg-[#F4EEE4] lg:mt-20 mt-10'>
