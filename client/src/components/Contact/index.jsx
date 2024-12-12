@@ -1,12 +1,43 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '../Header'
 import Footer from '../Footer'
 import Banner from '../../assets/footerbg.png'
 import { FiPhoneCall } from 'react-icons/fi';
 import { MdOutlineEmail } from 'react-icons/md';
 import { GrLocation } from 'react-icons/gr';
+import axios from 'axios'
 
 function Contact() {
+
+    const [name, setName] = useState()
+    const [email, setEmail] = useState()
+    const [phone, setPhone] = useState()
+    const [subject, setSubject] = useState()
+    const [notes, setNotes] = useState()
+
+    const handleContact = async (e) => {
+        e.preventDefault();
+
+        const data = { name, email, phone, subject, notes }
+
+        try {
+            const response = await axios.post(`http://localhost:1101/api/contact/create`, data);
+
+            if (response.data.success === 1) {
+                console.log(response.data);
+                setName('')
+                setEmail('')
+                setPhone('')
+                setNotes('')
+                setSubject('')
+            } else {
+                console.log(response.data.message);
+            }
+        } catch (error) {
+            console.log('Try Again.');
+        }
+    }
+
     return (
         <div>
             <div className='w-[100%] overflow-x-hidden font-[Montserrat] text-[24px]' style={{ backgroundImage: `url(${Banner})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
@@ -73,22 +104,22 @@ function Contact() {
                     <p className='opacity-80 text-[20px] md:w-[70%] sm:w-[85%] w-[90%] text-center'>Do you have anything in your mind to tell us? please don't hesitate to get in touch to us via our contact form.</p>
                     <div className='sm:w-[75%] xs:w-[80%] xxs:w-[90%] w-[95%] grid grid-cols-2 sm:gap-10 gap-5 lg:pt-14 sm:pt-8 pt-5'>
                         <div className='sm:col-span-1 col-span-2'>
-                            <input type="text" placeholder='Name*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' />
+                            <input type="text" placeholder='Name*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' value={name} onChange={(e)=> setName(e.target.value)}/>
                         </div>
                         <div className='sm:col-span-1 col-span-2'>
-                            <input type="text" placeholder='E-mail*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' />
+                            <input type="text" placeholder='E-mail*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' value={email} onChange={(e)=> setEmail(e.target.value)}/>
                         </div>
                         <div className='sm:col-span-1 col-span-2'>
-                            <input type="text" placeholder='Phone*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' />
+                            <input type="text" placeholder='Phone*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' value={phone} onChange={(e)=> setPhone(e.target.value)}/>
                         </div>
                         <div className='sm:col-span-1 col-span-2'>
-                            <input type="text" placeholder='Subject*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' />
+                            <input type="text" placeholder='Subject*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' value={subject} onChange={(e)=> setSubject(e.target.value)}/>
                         </div>
                         <div className='sm:col-span-1 col-span-2'>
-                            <input type="text" placeholder='Notes*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' />
+                            <input type="text" placeholder='Notes*' className='w-full border-b-2 border-black opacity-80 pb-4 text-xl outline-none bg-transparent' value={notes} onChange={(e)=> setNotes(e.target.value)}/>
                         </div>
                     </div>
-                    <button className='bg-black text-white mt-10 py-2 px-5'>Send Message</button>
+                    <button className='bg-black text-white mt-10 py-2 px-5' type='submit' onClick={handleContact}>Send Message</button>
                 </div>
             </div>
 

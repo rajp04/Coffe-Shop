@@ -20,4 +20,41 @@ const Create = async (req, res) => {
     }
 }
 
-module.exports = { Create }
+
+const GetBooking = async (req, res) => {
+    try {
+        const result = await Booking.find();
+
+        return res.json({
+            result,
+            success: 1,
+            message: "Booking data get successfully."
+        })
+    } catch (error) {
+        return res.json({
+            success: 0,
+            message: `try again. ${error.message}`
+        })
+    }
+}
+
+
+const GetById = async (req, res) => {
+    try {
+        const id = req.params.id
+        const result = await Booking.findById(id);
+
+        return res.json({
+            result,
+            success: 1,
+            message: "Booking data get successfully."
+        })
+    } catch (error) {
+        return res.json({
+            success: 0,
+            message: `try again. ${error.message}`
+        })
+    }
+}
+
+module.exports = { Create, GetBooking, GetById }
