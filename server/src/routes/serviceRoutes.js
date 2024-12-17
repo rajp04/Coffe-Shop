@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { upload } = require('../middleware/multer.js');
-const { Create } = require("../controller/serviceController.js");
+const { Create, GetService } = require("../controller/serviceController.js");
 
 router.route('/create').post(
   upload.fields([
@@ -10,5 +10,6 @@ router.route('/create').post(
   ]),
   Create
 );
+router.route('/').get(GetService)
 
 module.exports = router;

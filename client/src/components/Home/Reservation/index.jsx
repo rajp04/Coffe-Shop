@@ -36,7 +36,7 @@ function Reservation() {
         }
     }
     return (
-        <div className='h-auto sm:p-10 p-5 w-[85%] m-auto bg-[#F4EEE4] lg:mt-20 mt-10'>
+        <div className='h-auto sm:p-10 p-5 w-[85%] m-auto bg-[#F4EEE4] lg:mt-20 mt-10' id='booking'>
             <div className='flex flex-col h-full items-center justify-center'>
                 <h1 className='uppercase text-[#C5A572]'>Reservation</h1>
                 <h1 className='font-[Bellefair] sm:text-[45px] text-[30px] pt-3 text-center'>Online Booking</h1>

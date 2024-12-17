@@ -13,6 +13,7 @@ const Service = require('./routes/serviceRoutes.js');
 const Blog = require('./routes/blogRoutes.js');
 const Gallery = require('./routes/galleryRoutes.js');
 const Menu = require('./routes/menuRoutes.js');
+const Comment = require('./routes/commentRoutes.js');
 
 app.use(cors())
 app.use(express.json())
@@ -24,6 +25,7 @@ app.use('/api/service', Service);
 app.use('/api/blog', Blog);
 app.use('/api/gallery', Gallery);
 app.use('/api/menu', Menu);
+app.use('/api/comment', Comment);
 
 app.listen(port, () => {
   console.log(`Coffee Shop app listening on port ${port}`)

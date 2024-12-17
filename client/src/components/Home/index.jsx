@@ -31,7 +31,7 @@ function Home() {
                         <p className='h-[2px] w-14 bg-[#C5A572]'></p>
                     </div>
                     <p className='text-white opacity-80 pb-4 text-center w-[90%]'>18 Years to Master, Yours to Savor</p>
-                    <button className='border-2 py-2 px-5 text-white font-[24px] opacity-80'>Book A Table</button>
+                    <button className='border-2 py-2 px-5 text-white font-[24px] opacity-80' ><a href="#booking">Book A Table</a></button>
                 </div>
             </div>
 
@@ -42,7 +42,7 @@ function Home() {
                         <h1 className='uppercase text-[#C5A572] text-[24px] pb-2'>OUR STORY</h1>
                         <h1 className='text-[#000000] font-[Bellefair] lg:text-[37px] text-[30px] pb-2'>A Brief History Of How We Started.</h1>
                         <p className='text-[#000000] opacity-60 lg:text-[18px] text-[15px] tracking-tight pb-5'>Iste sed saepe animi magnam voluptatibus voluptatibus natus quaerat. Sit sunt id rem. Doloribus et quam et tempora veritatis praesentium vero. Tempora repudiandae quia.Dicta dolorum neque illum sit quam nemo labore asperiores sed. Exercitationem voluptatem ut qui accusamus veniam. Fugit voluptatem dignissimos aperiam beatae labore esse.</p>
-                        <button className='border-2 border-[#C5A572] py-2 px-5 text-[#C5A572] font-[24px] opacity-80 w-[150px]'>Book A Table</button>
+                        <button className='border-2 border-[#C5A572] py-2 px-5 text-[#C5A572] font-[24px] opacity-80 w-[150px]'><a href="#booking">Book A Table</a></button>
                     </div>
                     <img src={Story1} alt="story1" className='h-auto md:col-span-1 xxs:col-span-2 col-span-4' />
                     <img src={Story2} alt="story2" className='h-auto md:col-span-1 xxs:col-span-2 col-span-4' />

@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import OurServiceImg from "../../../assets/ourserviceimg.png";
-import Holidayparies from "../../../assets/holidayparies.svg";
-import Birthday from "../../../assets/birthday.svg";
-import Anniversaries from "../../../assets/anniversaries.svg";
+import axios from 'axios'
 
 const Service = () => {
+
+    const [data, setData] = useState()
+
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
         slidesToShow: 3,
         slidesToScroll: 1,
-        arrows: false, 
-        autoplay: true, 
+        arrows: false,
+        autoplay: true,
         autoplaySpeed: 3000,
         responsive: [
             {
@@ -28,6 +29,23 @@ const Service = () => {
             },
         ],
     };
+
+    useEffect(() => {
+        const service = async () => {
+            try {
+                const response = await axios.get(`http://localhost:1101/api/service`);
+                if (response.data.success === 1) {
+                    // console.log(response.data);
+                    setData(response.data.result)
+                } else {
+                    console.log(response.data.message);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        }
+        service()
+    }, [])
 
     return (
         <div
@@ -46,66 +64,27 @@ const Service = () => {
 
                 <div className="w-full">
                     <Slider {...settings}>
-                        <div className="pt-[85px] px-5">
-                            <div className="border-[1px] border-[#C5A572] w-auto h-auto text-center p-5 relative m-auto">
-                                <div className="flex items-center justify-center">
-                                    <img
-                                        src={Holidayparies}
-                                        alt="Holidayparies"
-                                        className="absolute -top-16"
-                                    />
-                                </div>
-                                <h1 className="text-[#C5A572] text-[35px] font-[Bellefair] pt-5">
-                                    Holiday Parties
-                                </h1>
-                                <p className="opacity-60 text-white text-[19px]">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Sequi nihil aliquid nam alias ea. Magni adipisci ad unde, cum
-                                    quia non temporibus voluptas quod, quis quae voluptatibus
-                                    impedit reprehenderit quibusdam.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="pt-[85px] px-5">
-                            <div className="border-[1px] border-[#C5A572] w-auto h-auto text-center p-5 relative m-auto">
-                            <div className="flex items-center justify-center">
-                                <img
-                                    src={Birthday}
-                                    alt="Birthday"
-                                    className="absolute -top-16"
-                                />
-                                </div>
-                                <h1 className="text-[#C5A572] text-[35px] font-[Bellefair] pt-5">
-                                    Birthday Parties
-                                </h1>
-                                <p className="opacity-60 text-white text-[19px]">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Sequi nihil aliquid nam alias ea. Magni adipisci ad unde, cum
-                                    quia non temporibus voluptas quod, quis quae voluptatibus
-                                    impedit reprehenderit quibusdam.
-                                </p>
-                            </div>
-                        </div>
-                        <div className="pt-[85px] px-5">
-                            <div className="border-[1px] border-[#C5A572] w-auto h-auto text-center p-5 relative m-auto">
-                            <div className="flex items-center justify-center">
-                                <img
-                                    src={Anniversaries}
-                                    alt="Anniversaries"
-                                    className="absolute -top-16 "
-                                    />
+                        {data && data?.map((item) => (
+                            <div className="pt-[85px] px-5" key={item._id}>
+                                <div className="border-[1px] border-[#C5A572] w-auto h-auto text-center p-5 relative m-auto" >
+                                    <div className="flex items-center justify-center">
+                                        <div className="absolute -top-16 bg-[#2D3232] p-5 rounded-full">
+                                            <img
+                                                src={item.subImage}
+                                                alt="Holidayparies"
+                                                className="h-[60px] w-[60px]"
+                                            />
+                                        </div>
                                     </div>
-                                <h1 className="text-[#C5A572] xl:text-[35px] text-[30px] font-[Bellefair] pt-5">
-                                    Anniversaries Parties
-                                </h1>
-                                <p className="opacity-60 text-white text-[19px]">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                    Sequi nihil aliquid nam alias ea. Magni adipisci ad unde, cum
-                                    quia non temporibus voluptas quod, quis quae voluptatibus
-                                    impedit reprehenderit quibusdam.
-                                </p>
+                                    <h1 className="text-[#C5A572] text-[35px] font-[Bellefair] pt-5">
+                                        {item.name}
+                                    </h1>
+                                    <p className="opacity-60 text-white text-[19px]">
+                                        {item.description.length > 280 ? `${item.description.slice(0, 280)}...` : item.description}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        ))}
                     </Slider>
                 </div>
             </div>

@@ -5,6 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 .welcomeFont {
     font-family: "Great Vibes", cursive;
     font-weight: 400;
@@ -27,25 +28,55 @@
     margin-bottom: -40px !important;
 }
 
-.slick-dots li.slick-active button:before{
-    color: white!important;
+.slick-dots li.slick-active button:before {
+    color: white !important;
 }
 
-.slick-dots li button:before{
-    color: white!important;
+.slick-dots li button:before {
+    color: white !important;
 }
 
 .logo-img path {
-  fill: #fff;
+    fill: #fff;
 }
 
-.slick-dots li button:before{
-    font-size: 20px!important;
+.slick-dots li button:before {
+    font-size: 20px !important;
 }
 
-.slick-dots li button:before{
-    content: ''!important;
-    height: 5px!important;
-    width: 30px!important;
-    background-color: white!important;
+.slick-dots li button:before {
+    content: '' !important;
+    height: 5px !important;
+    width: 30px !important;
+    background-color: white !important;
+}
+
+
+.main_grid_reverse:nth-child(odd) {
+    direction: rtl;
+}
+
+.main_grid_reverse:nth-child(even) {
+    background-color: white;
+}
+
+.main_image_set:nth-child(even) {
+    background: url('./assets/menu/bgmenuimg.png');
+    background-size: cover;
+    background-position: center;
+    color: #fff !important;
+}
+
+.main_image_icon:nth-child(even) {
+    background: url('./assets/menu/Cut.svg');
+    width:165px;
+    height:30px;
+    background-size: cover;
+    background-position: center;
+}
+
+.main_image_icon:nth-child(odd) {
+    background: url('./assets/menu/Cutwhite.svg');
+    background-size: cover;
+    background-position: center;
 }

@@ -34,7 +34,7 @@ const Create = async (req, res) => {
 }
 
 
-const Data = async (req, res) => {
+const GetService = async (req, res) => {
     try {
         const result = await Service.find();
 
@@ -51,4 +51,4 @@ const Data = async (req, res) => {
     }
 }
 
-module.exports = { Create }
+module.exports = { Create, GetService }

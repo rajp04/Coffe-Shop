@@ -90,4 +90,31 @@ const DeleteById = async (req, res) => {
 }
 
 
-module.exports = { Create, GetBlog, GetByIdBlog, DeleteById }
+const FilterByTitle = async (req, res) => {
+    try {
+        const { title } = req.query;
+
+        if (!title) {
+            return res.status(400).json({ message: "Title query parameter is required" });
+        }
+
+        const blogs = await Blog.find({ title: { $regex: title, $options: "i" } });
+
+        return res.status(200).json({
+            message: "Blogs fetched successfully",
+            success: 1,
+            blogs,
+        });
+    } catch (error) {
+        console.error("Error in FilterByTitle:", error.message);
+        return res.status(500).json({
+            success: 0,
+            message: `Something went wrong. ${error.message}`,
+        });
+    }
+};
+
+
+
+
+module.exports = { Create, GetBlog, GetByIdBlog, DeleteById, FilterByTitle }
