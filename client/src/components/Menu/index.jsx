@@ -102,7 +102,7 @@ function Menu() {
               {items.map(item => (
                 <div className="col-span-1" key={item._id}>
                   <div className="flex items-center justify-between space-x-2">
-                    <h1 className="font-[Bellefair] sm:text-[35px] xs:text-[30px] text-[25px]">{item.name}</h1>
+                    <h1 className="font-[Bellefair] sm:text-[35px] xs:text-[30px] text-[25px]">{item.name.length > 35 ? `${item.name.slice(0, 35)}...` : item.name}</h1>
                     <p className='font-[Bellefair] text-[35px]'>{item.price}</p>
                   </div>
                   <p className="opacity-60">{item.description.length > 65 ? `${item.description.slice(0, 65)}...` : item.description}</p>

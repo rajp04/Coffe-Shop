@@ -15,6 +15,7 @@ const Create = async (req, res) => {
         return res.status(201)
             .json({
                 message: "Menu created successfully",
+                success: 1,
                 Menu: savedMenu
             });
 
@@ -25,6 +26,46 @@ const Create = async (req, res) => {
         })
     }
 }
+
+
+const Update = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const { name, description, category, price } = req.body;
+
+        if (!id || !name || !description || !category || !price) {
+            return res.status(400).json({
+                success: 0,
+                message: "All fields are required"
+            });
+        }
+
+        const updatedMenu = await Menu.findByIdAndUpdate(
+            id, 
+            { name, description, category, price }, 
+            { new: true } 
+        );
+
+        if (!updatedMenu) {
+            return res.status(404).json({
+                success: 0,
+                message: "Menu not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: 1,
+            message: "Menu updated successfully",
+            menu: updatedMenu
+        });
+
+    } catch (error) {
+        return res.status(500).json({
+            success: 0,
+            message: `Try again. ${error.message}`
+        });
+    }
+};
 
 
 const GetMenu = async (req, res) => {
@@ -67,7 +108,7 @@ const GetByIdMenu = async (req, res) => {
 const DeleteById = async (req, res) => {
     try {
         const id = req.params.id
-        const result = await Menu.findByIdAndDelete(id);
+        const result = await Menu.findOneAndDelete({_id:id});
 
         return res.json({
             result,
@@ -82,4 +123,4 @@ const DeleteById = async (req, res) => {
     }
 }
 
-module.exports = { Create, GetByIdMenu, GetMenu, DeleteById }
+module.exports = { Create, GetByIdMenu, GetMenu, DeleteById, Update }
