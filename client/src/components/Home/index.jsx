@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Header from '../Header'
 import Banner from '../../assets/bgcafe.png'
 import Cafe from '../../assets/cafe.svg'
@@ -12,29 +12,50 @@ import Blogs from './Blogs'
 import Gallery from './Gallery'
 import Footer from '../Footer'
 import TeamMember from './TeamMember'
+import axios from 'axios'
 
 function Home() {
+
+    const [banner, setBanner] = useState([]);
+
+    useEffect(() => {
+        const banner = async () => {
+            try {
+                const response = await axios.get(`http://localhost:1101/api/banner`);
+                if (response.data.success === 1) {
+                    setBanner(response.data.result);
+                } else {
+                    console.log(response.data.message);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        banner();
+    }, [banner]);
+
     return (
         <div>
-            <div className='h-screen w-[100%] overflow-x-hidden font-[Montserrat] text-[24px]' style={{ backgroundImage: `url(${Banner})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
+            {banner && banner?.map((item, index)=> (
+                <div className='h-screen w-[100%] overflow-x-hidden font-[Montserrat] text-[24px]' key={index} style={{ backgroundImage: `url(${item.image})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' }}>
 
-                {/* Header Season */}
-                <Header />
+                    {/* Header Season */}
+                    <Header />
 
-                {/* Banner Season */}
-                <div className='flex flex-col items-center justify-center h-[80%]'>
-                    <h1 className='text-[#C5A572] xs:text-[60px] text-[35px] tracking-wide welcomeFont text-center'>Welcome to Oneline</h1>
-                    <h2 className='text-white xs:text-[60px] text-[35px] tracking-wide font-[Bellefair] text-center md:w-[60%] w-[85%]'>Feel the Authentic & Taste From Us</h2>
-                    <div className='flex items-center space-x-2 pb-3'>
-                        <p className='h-[2px] w-14 bg-[#C5A572]'></p>
-                        <img src={Cafe} alt="Cafe" />
-                        <p className='h-[2px] w-14 bg-[#C5A572]'></p>
+                    {/* Banner Season */}
+                    <div className='flex flex-col items-center justify-center h-[80%]'>
+                        <h1 className='text-[#C5A572] xs:text-[60px] text-[35px] tracking-wide welcomeFont text-center'>{item.title}</h1>
+                        <h2 className='text-white xs:text-[60px] text-[35px] tracking-wide font-[Bellefair] text-center md:w-[60%] w-[85%]'>{item.description}</h2>
+                        <div className='flex items-center space-x-2 pb-3'>
+                            <p className='h-[2px] w-14 bg-[#C5A572]'></p>
+                            <img src={Cafe} alt="Cafe" />
+                            <p className='h-[2px] w-14 bg-[#C5A572]'></p>
+                        </div>
+                        <p className='text-white opacity-80 pb-4 text-center w-[90%]'>{item.message}</p>
+                        <button className='border-2 py-2 px-5 text-white font-[24px] opacity-80' ><a href="#booking">Book A Table</a></button>
                     </div>
-                    <p className='text-white opacity-80 pb-4 text-center w-[90%]'>18 Years to Master, Yours to Savor</p>
-                    <button className='border-2 py-2 px-5 text-white font-[24px] opacity-80' ><a href="#booking">Book A Table</a></button>
                 </div>
-            </div>
-
+            ))}
             {/* Story Season */}
             <div className='xl:py-[115px] lg:py-[80px] py-[40px]'>
                 <div className='w-[85%] m-auto grid grid-cols-4 items-center justify-center gap-5'>

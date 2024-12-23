@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Slider from "react-slick";
 import Testimonialbg from '../../../assets/testimonialbg.png';
 import Quote from '../../../assets/quote.svg';
-
+import axios from 'axios'
 function Testimonial() {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const testimonial = async () => {
+            try {
+                const response = await axios.get(`http://localhost:1101/api/testimonial`);
+                if (response.data.success === 1) {
+                    setData(response.data.result);
+                } else {
+                    console.log(response.data.message);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        testimonial();
+    }, []);
+
     const settings = {
         dots: true,
         infinite: true,
@@ -38,39 +57,17 @@ function Testimonial() {
 
                 <div className="w-full pt-[50px] ">
                     <Slider {...settings}>
-                        <div className="widhth">
-                            <div className='bg-white p-6'>
-                                <div className="border-[2px] bg-white border-[#C5A572] flex items-center justify-center flex-col p-6">
-                                    <img src={Quote} alt="quote" />
-                                    <p className="text-center pt-4 pb-3">
-                                        " Harum quis facere a doloremque dolore odio qui cupiditate. Repellendus officiis culpa repellat doloremque quo. Aut ad sunt modi sit blanditiis. "
-                                    </p>
-                                    <h1>- Armani Murray</h1>
+                        {data && data?.map((item, index) => (
+                            <div className="widhth" key={index}>
+                                <div className='bg-white p-6'>
+                                    <div className="border-[2px] bg-white border-[#C5A572] flex items-center justify-center flex-col p-6">
+                                        <img src={Quote} alt="quote" />
+                                        <p className="text-center pt-4 pb-3">{item.description.length > 120 ? `${item.description.slice(0, 120)}...` : item.description}</p>
+                                        <h1>- {item.name}</h1>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div className="widhth">
-                            <div className='bg-white p-6'>
-                                <div className="border-[2px] bg-white border-[#C5A572] flex items-center justify-center flex-col p-6 ">
-                                    <img src={Quote} alt="quote" />
-                                    <p className="text-center pt-4 pb-3">
-                                        " Necessitatibus vero aperiam illum nobis. Alias vitae consequatur culpa numquam ad sed maiores. Facilis sed blanditiis commodi illo blanditiis. "
-                                    </p>
-                                    <h1>- Celestine Dietrich</h1>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="widhth">
-                            <div className='bg-white p-6'>
-                                <div className="border-[2px] bg-white border-[#C5A572] flex items-center justify-center flex-col p-6 ">
-                                    <img src={Quote} alt="quote" />
-                                    <p className="text-center pt-4 pb-3">
-                                        " Nihil sed corrupti ut est. Neque voluptatibus amet nisi et eaque dolorum reprehenderit. Nihil harum provident id nemo voluptas qui blanditiis. "
-                                    </p>
-                                    <h1>- Madisyn Dooley</h1>
-                                </div>
-                            </div>
-                        </div>
+                        ))}
                     </Slider>
                 </div>
             </div>

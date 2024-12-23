@@ -22,6 +22,16 @@ import EditGallery from './components/Admin/Gallery/EditGallery'
 import AddGallery from './components/Admin/Gallery/AddGallery'
 import AdminGallery from './components/Admin/Gallery'
 import AdminBooking from './components/Admin/Booking'
+import AdminContact from './components/Admin/Contact'
+import AdminBlogs from './components/Admin/Blogs'
+import AddBlogs from './components/Admin/Blogs/AddBlogs'
+import EditBlogs from './components/Admin/Blogs/EditBlogs'
+import AdminHomeBanner from './components/Admin/Home/HomeBanner'
+import AddHomeBanner from './components/Admin/Home/HomeBanner/AddBanner'
+import EditHomeBanner from './components/Admin/Home/HomeBanner/EditBanner'
+import AdminHomeTestimonial from './components/Admin/Home/HomeTestimonial'
+import AddHomeTestimonial from './components/Admin/Home/HomeTestimonial/AddTestimonial'
+import EditHomeTestimonial from './components/Admin/Home/HomeTestimonial/EditTestimonial'
 
 function App() {
   return (
@@ -49,6 +59,16 @@ function App() {
             <Route path="addgallery" element={<AddGallery />} />
             <Route path="editgallery" element={<EditGallery />} />
             <Route path="booking" element={<AdminBooking />} />
+            <Route path="contact" element={<AdminContact />} />
+            <Route path="blog" element={<AdminBlogs />} />
+            <Route path="addblog" element={<AddBlogs />} />
+            <Route path="editblog" element={<EditBlogs />} />
+            <Route path="home/banner" element={<AdminHomeBanner />} />
+            <Route path="home/addbanner" element={<AddHomeBanner />} />
+            <Route path="home/editbanner" element={<EditHomeBanner />} />
+            <Route path="home/testimonial" element={<AdminHomeTestimonial />} />
+            <Route path="home/addtestimonial" element={<AddHomeTestimonial />} />
+            <Route path="home/edittestimonial" element={<EditHomeTestimonial />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>
