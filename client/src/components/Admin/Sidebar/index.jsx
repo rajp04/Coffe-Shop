@@ -261,28 +261,28 @@ function Sidebar() {
                                 </div>
                             )}
 
-                            {/* Nested Dropdown for Story Options */}
+                            {/* Nested Dropdown for Team Member Options */}
                             <div
-                                onClick={() => toggleNestedDropdown('story')}
+                                onClick={() => toggleNestedDropdown('team')}
                                 className="px-4 py-2 flex justify-between items-center cursor-pointer hover:bg-[#444444]"
                             >
-                                <span>Story Options</span>
-                                {nestedDropdownOpen === 'story' ? <FaAngleUp /> : <FaAngleDown />}
+                                <span>Team Member Options</span>
+                                {nestedDropdownOpen === 'team' ? <FaAngleUp /> : <FaAngleDown />}
                             </div>
-                            {nestedDropdownOpen === 'story' && (
+                            {nestedDropdownOpen === 'team' && (
                                 <div className="bg-[#444444] pl-6">
                                     <ul className="flex flex-col">
                                         <Link
-                                            to={'home/story'}
+                                            to={'home/team'}
                                             className="px-4 py-2 hover:bg-[#555555] cursor-pointer"
                                         >
-                                            View Story
+                                            View Team Member
                                         </Link>
                                         <Link
-                                            to={'home/addstory'}
+                                            to={'home/addteam'}
                                             className="px-4 py-2 hover:bg-[#555555] cursor-pointer"
                                         >
-                                            Add Story
+                                            Add Team Member
                                         </Link>
                                     </ul>
                                 </div>

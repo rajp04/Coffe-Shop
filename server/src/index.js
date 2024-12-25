@@ -16,6 +16,9 @@ const Menu = require('./routes/menuRoutes.js');
 const Comment = require('./routes/commentRoutes.js');
 const Banner = require('./routes/bannerRoutes.js');
 const Testimonial = require('./routes/testimonialRoutes.js');
+const Team = require('./routes/teamRoutes.js');
+const Specialities = require('./routes/specialitiesRoutes.js');
+const Admin = require('./controller/adminController.js');
 
 app.use(cors())
 app.use(express.json())
@@ -30,6 +33,9 @@ app.use('/api/menu', Menu);
 app.use('/api/comment', Comment);
 app.use('/api/banner', Banner);
 app.use('/api/testimonial', Testimonial);
+app.use('/api/team', Team);
+app.use('/api/specialities', Specialities);
+app.use('/api/admin', Admin);
 
 app.listen(port, () => {
   console.log(`Coffee Shop app listening on port ${port}`)

@@ -11,12 +11,15 @@ import { BiLogOut } from "react-icons/bi";
 import { FaRegUser } from "react-icons/fa6";
 import { MdMenuOpen, MdSunny } from "react-icons/md";
 import { MyContext } from '..';
+import { useNavigate } from 'react-router-dom';
 
 function Header() {
 
   const [open, setOpen] = React.useState(false);
   const { sidebarOpen, setSidebarOpen } = useContext(MyContext);
   const { themeMode, setThemeMode } = useContext(MyContext);
+
+  const navigate = useNavigate()
 
   const handleClick = () => {
     setOpen((prev) => !prev);
@@ -146,7 +149,7 @@ function Header() {
                     </div>
                     <div className='flex items-center space-x-5 cursor-pointer hover:text-blue-500 duration-300'>
                       <BiLogOut />
-                      <h1>Log Out</h1>
+                      <h1 onClick={()=> {sessionStorage.removeItem('Admin'); navigate('/admin/login')}}>Log Out</h1>
                     </div>
                   </div>
                 </Box>

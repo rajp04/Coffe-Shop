@@ -6,21 +6,35 @@ import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa";
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 function Login() {
 
   const [isVisiable, setIsVisiable] = useState(true);
+  const [email, setEmail] = useState();
+  const [password, setPasswword] = useState();
   const navigate = useNavigate();
 
   const handleVisiable = () => {
     setIsVisiable(!isVisiable);
   }
 
-//   const context = useContext(MyContext);
+  const handleSubmit = async () => {
+    try {
+      const data = { email, password }
 
-//   useEffect(() => {
-//     context.setIsHeader(true);
-//   })
+      const response = await axios.post('http://localhost:1101/api/admin/login', data)
+      
+      if (response?.data?.success === 1) {
+        sessionStorage.setItem('Admin', response?.data?.token)
+        navigate('/admin')
+      }else{
+        console.log(response.data.message);      
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
 
   return (
     <div className="h-screen w-screen overflow-y-scroll overflow-x-hidden relative">
@@ -35,11 +49,11 @@ function Login() {
         <div className='bg-[#ecebeb] rounded-md border border-[#e4e4e4] p-5 mt-4 z-50 space-y-5'>
           <div className='bg-white flex items-center hover:text-blue-500 transition-all justify-center rounded-md px-3 py-1 w-full text-gray-700 '>
             <IoMail className='bg-transparent text-2xl' />
-            <input type="email" name=""  placeholder='Enter your email' className='py-1 w-full px-3 bg-transparent outline-none hover:text-gray-700' />
+            <input type="email" name="" placeholder='Enter your email' className='py-1 w-full px-3 bg-transparent outline-none hover:text-gray-700' value={email} onChange={(e) => setEmail(e.target.value)}/>
           </div>
           <div className='bg-white flex items-center hover:text-blue-500 transition-all justify-center rounded-md px-3 py-1 w-full text-gray-700 '>
             <IoMdLock className='bg-transparent text-2xl' />
-            <input type={`${isVisiable === true ? "password" : ""}`} name=""  placeholder='Enter your password' className='py-1 w-full px-3 bg-transparent outline-none hover:text-gray-700' />
+            <input type={`${isVisiable === true ? "password" : ""}`} name="" placeholder='Enter your password' className='py-1 w-full px-3 bg-transparent outline-none hover:text-gray-700' value={password} onChange={(e) => setPasswword(e.target.value)}/>
             <div className='bg-transparent ' onClick={handleVisiable}>
               {
                 isVisiable === true ?
@@ -49,7 +63,7 @@ function Login() {
               }
             </div>
           </div>
-          <button className='text-white flex items-center bg-blue-500 justify-center rounded-md px-3 py-2 w-full cursor-pointer font-[500] text-xl'>SIGN IN</button>
+          <button className='text-white flex items-center bg-blue-500 justify-center rounded-md px-3 py-2 w-full cursor-pointer font-[500] text-xl' type='submit' onClick={handleSubmit}>SIGN IN</button>
           <h1 className='text-center bg-transparent text-gray-700 text-sm hover:text-blue-500 cursor-pointer' onClick={() => navigate('/forgetpassword')}>Forget Password</h1>
         </div>
       </div>

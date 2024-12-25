@@ -32,6 +32,9 @@ import EditHomeBanner from './components/Admin/Home/HomeBanner/EditBanner'
 import AdminHomeTestimonial from './components/Admin/Home/HomeTestimonial'
 import AddHomeTestimonial from './components/Admin/Home/HomeTestimonial/AddTestimonial'
 import EditHomeTestimonial from './components/Admin/Home/HomeTestimonial/EditTestimonial'
+import AddHomeTeamMember from './components/Admin/Home/HomeTeamMember/AddHomeTeamMember'
+import AdminTeamMember from './components/Admin/Home/HomeTeamMember'
+import EditHomeTeamMember from './components/Admin/Home/HomeTeamMember/EditHomeTeamMember'
 
 function App() {
   return (
@@ -69,6 +72,9 @@ function App() {
             <Route path="home/testimonial" element={<AdminHomeTestimonial />} />
             <Route path="home/addtestimonial" element={<AddHomeTestimonial />} />
             <Route path="home/edittestimonial" element={<EditHomeTestimonial />} />
+            <Route path="home/team" element={<AdminTeamMember />} />
+            <Route path="home/addteam" element={<AddHomeTeamMember />} />
+            <Route path="home/editteam" element={<EditHomeTeamMember />} />
           </Route>
           <Route path="*" element={<Error />} />
         </Routes>

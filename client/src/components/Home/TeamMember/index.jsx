@@ -1,10 +1,27 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FaFacebookF, FaInstagram, FaLinkedinIn, FaPlay, FaTwitter } from 'react-icons/fa'
-import Team1 from '../../../assets/team1.png'
-import Team2 from '../../../assets/team2.png'
-import Team3 from '../../../assets/team3.png'
+import axios from 'axios'
 
 function TeamMember() {
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const gallery = async () => {
+            try {
+                const response = await axios.get(`http://localhost:1101/api/team`);
+                if (response.data.success === 1) {
+                    setData(response.data.result);
+                } else {
+                    console.log(response.data.message);
+                }
+            } catch (error) {
+                console.log(error.message);
+            }
+        };
+        gallery();
+    }, [data]);
+
     return (
         <div className="w-[85%] m-auto xl:pt-[60px] pt-[40px] pb-5">
             <div className="sm:flex sm:flex-row flex-col items-center justify-between">
@@ -19,74 +36,30 @@ function TeamMember() {
                 </div>
             </div>
             <div className="xxs:flex xxs:flex-row flex-col w-full items-center justify-start mt-5 sm:mt-10 lg:space-x-10 xxs:space-x-3 space-x-0 sm:space-y-0 space-y-3">
-                <a className="relative w-full sm:block flex  xxs:hidden  group xl:h-[500px] lg:h-[430px] md:h-[350px] sm:h-[250px] h-[400px]" href="##">
-                    <img
-                        className="absolute inset-0 w-full h-full object-cover"
-                        src={Team1}
-                        alt="Team Member"
-                    />
-                    <div
-                        className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-80 transition-opacity duration-500"
-                    ></div>
-                    <div
-                        className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-y-1/4 transition-all duration-500 text-center z-10"
-                    >
-                        <p className="text-[30px] text-[Bellefair] text-white">Mr. Gunner Upton</p>
-                        <p className="opacity-60 text-white text-[22px]">Decoration</p>
-                        <div className='flex text-white space-x-5 justify-center pt-3'>
-                            <FaFacebookF />
-                            <FaInstagram />
-                            <FaLinkedinIn />
-                            <FaTwitter />
+                {data && data?.map((item, index) => (
+                    <div className="relative w-full sm:block flex  xxs:hidden  group xl:h-[500px] lg:h-[430px] md:h-[350px] sm:h-[250px] h-[400px]" key={index}>
+                        <img
+                            className="absolute inset-0 w-full h-full object-cover"
+                            src={item.image}
+                            alt="Team Member"
+                        />
+                        <div
+                            className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-80 transition-opacity duration-500"
+                        ></div>
+                        <div
+                            className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-y-1/4 transition-all duration-500 text-center z-10"
+                        >
+                            <p className="text-[30px] text-[Bellefair] text-white">{item.name}</p>
+                            <p className="opacity-60 text-white text-[22px]">{item.expertise}</p>
+                            <div className='flex text-white space-x-5 justify-center pt-3'>
+                                {item.facebook && <a href={item.facebook} target='_blank'><FaFacebookF /></a>}
+                                {item.instagram && <a href={item.instagram} target='_blank'><FaInstagram /></a>}
+                                {item.linkedin && <a href={item.linkedin} target='_blank'><FaLinkedinIn /></a>}
+                                {item.twitter && <a href={item.twitter} target='_blank'><FaTwitter /></a>}
+                            </div>
                         </div>
                     </div>
-                </a>
-
-                <a className="relative w-full block group xl:h-[500px] lg:h-[430px] md:h-[350px] xxs:h-[250px] h-[400px]" href="##">
-                    <img
-                        className="absolute inset-0 w-full h-full object-cover"
-                        src={Team2}
-                        alt="Team Member"
-                    />
-                    <div
-                        className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-80 transition-opacity duration-500"
-                    ></div>
-                    <div
-                        className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-y-1/4 transition-all duration-500 text-center z-10"
-                    >
-                        <p className="text-[30px] text-[Bellefair] text-white">Ms. Jane Doe</p>
-                        <p className="opacity-60 text-white text-[22px]">Photography</p>
-                        <div className='flex text-white space-x-5 justify-center pt-3'>
-                            <FaFacebookF />
-                            <FaInstagram />
-                            <FaLinkedinIn />
-                            <FaTwitter />
-                        </div>
-                    </div>
-                </a>
-
-                <a className="relative w-full block group xl:h-[500px] lg:h-[430px] md:h-[350px] xxs:h-[250px] h-[400px]" href="##">
-                    <img
-                        className="absolute inset-0 w-full h-full object-cover"
-                        src={Team3}
-                        alt="Team Member"
-                    />
-                    <div
-                        className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-80 transition-opacity duration-500"
-                    ></div>
-                    <div
-                        className="absolute bottom-1/2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-y-1/4 transition-all duration-500 text-center z-10"
-                    >
-                        <p className="text-[30px] text-[Bellefair] text-white">Mr. John Smith</p>
-                        <p className="opacity-60 text-white text-[22px]">Event Planner</p>
-                        <div className='flex text-white space-x-5 justify-center pt-3'>
-                            <FaFacebookF />
-                            <FaInstagram />
-                            <FaLinkedinIn />
-                            <FaTwitter />
-                        </div>
-                    </div>
-                </a>
+                ))}
             </div>
         </div >
     )

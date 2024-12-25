@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Header from './Header'
 import Sidebar from './Sidebar'
 
@@ -9,6 +9,15 @@ function Admin() {
 
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [themeMode, setThemeMode] = useState(true);
+
+  const navigate = useNavigate()
+  const admin = sessionStorage.getItem("Admin")
+
+  useEffect(() => {
+    if (admin == null) {
+      navigate("/admin/login")
+    }
+  })
 
   useEffect(() => {
     if (themeMode === true) {
