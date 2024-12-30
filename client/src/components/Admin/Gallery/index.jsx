@@ -11,6 +11,7 @@ function AdminGallery() {
     const [currentPage, setCurrentPage] = useState(1);
     const [selectedCategory, setSelectedCategory] = useState('');
     const [searchTerm, setSearchTerm] = useState('');
+    const [permissions, setPermissions] = useState();
     const itemsPerPage = 12;
 
     const navigate = useNavigate();
@@ -82,9 +83,32 @@ function AdminGallery() {
         }
     };
 
+    useEffect(() => {
+        const fetchPermissions = async () => {
+            try {
+                const token = sessionStorage.getItem('Admin');
+                const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (response.data.success === 1) {
+                    setPermissions(response.data.permissions || {});
+                } else {
+                    console.error('Failed to fetch permissions:', response.data.message);
+                    setPermissions({});
+                }
+            } catch (error) {
+                console.error('Error fetching permissions:', error.message);
+                setPermissions({});
+            }
+        };
+
+        fetchPermissions();
+    }, []);
+
     return (
         <div className='pt-[90px] bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8'>
-            <h1 className='text-3xl font-semibold pb-2 dark:text-white'>Menu</h1>
+            <h1 className='text-3xl font-semibold pb-2 dark:text-white'>Gallery</h1>
             <div className='bg-white dark:bg-gray-900 rounded-md'>
                 <div className="mt-3 bg-white dark:bg-[#1C2434] rounded-md p-5 overflow-clip">
                     <div className="grid sm:grid-cols-2 grid-cols-1 gap-4 bg-transparent">
@@ -122,7 +146,7 @@ function AdminGallery() {
                                     <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start min-w-44">Name</th>
                                     <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">Category</th>
                                     <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">Image</th>
-                                    <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">Action</th>
+                                    {(permissions?.gallery?.includes('edit') || permissions?.gallery?.includes('delete')) && (<th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>)}
                                 </tr>
                             </thead>
                             <tbody className='bg-[#1c243488]'>
@@ -133,12 +157,12 @@ function AdminGallery() {
                                         <td className='px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start'>
                                             <img src={item.image} alt="service" style={{ height: "50px", objectFit: "cover" }} />
                                         </td>
-                                        <td className="px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
-                                            <div className="flex items-center space-x-1">
-                                                <HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/editgallery`, { state: item })} />
-                                                <MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />
+                                        {(permissions?.gallery?.includes('edit') || permissions?.gallery?.includes('delete')) && (<td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
+                                            <div className="bg-transparent flex items-center space-x-1">
+                                                {permissions?.gallery?.includes('edit') && (<HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/editgallery`, { state: item })} />)}
+                                                {permissions?.gallery?.includes('delete') && (<MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />)}
                                             </div>
-                                        </td>
+                                        </td>)}
                                     </tr>
                                 ))}
                             </tbody>

@@ -13,6 +13,7 @@ function AdminService() {
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [permissions, setPermissions] = useState();
   const itemsPerPage = 12;
 
   useEffect(() => {
@@ -69,6 +70,29 @@ function AdminService() {
     }
   };
 
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      try {
+        const token = sessionStorage.getItem('Admin');
+        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data.success === 1) {
+          setPermissions(response.data.permissions || {});
+        } else {
+          console.error('Failed to fetch permissions:', response.data.message);
+          setPermissions({});
+        }
+      } catch (error) {
+        console.error('Error fetching permissions:', error.message);
+        setPermissions({});
+      }
+    };
+
+    fetchPermissions();
+  }, []);
+
   return (
     <div className='pt-[90px] bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8'>
       <h1 className='text-3xl font-semibold pb-2 dark:text-white'>Service</h1>
@@ -95,7 +119,7 @@ function AdminService() {
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start min-w-80">DESCRIPTION</th>
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">IMAGE</th>
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">SUBIMAGE</th>
-                  <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>
+                  {(permissions?.service?.includes('edit') || permissions?.service?.includes('delete')) && (<th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>)}
                 </tr>
               </thead>
               <tbody className='bg-[#1c243488]'>
@@ -111,12 +135,12 @@ function AdminService() {
                     <td className='bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start'>
                       <img src={item.subImage} alt="service-sub" style={{ height: "50px", objectFit: "cover" }} />
                     </td>
-                    <td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
+                    {(permissions?.service?.includes('edit') || permissions?.service?.includes('delete')) && (<td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
                       <div className="bg-transparent flex items-center space-x-1">
-                        <HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/editservice`, { state: item })} />
-                        <MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />
+                        {permissions?.service?.includes('edit') && (<HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/editservice`, { state: item })} />)}
+                        {permissions?.service?.includes('delete') && (<MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />)}
                       </div>
-                    </td>
+                    </td>)}
                   </tr>
                 ))}
               </tbody>

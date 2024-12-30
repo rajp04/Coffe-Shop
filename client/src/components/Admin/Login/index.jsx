@@ -23,7 +23,7 @@ function Login() {
     try {
       const data = { email, password }
 
-      const response = await axios.post('http://localhost:1101/api/admin/login', data)
+      const response = await axios.post('http://localhost:1101/api/admin/login', data);
       
       if (response?.data?.success === 1) {
         sessionStorage.setItem('Admin', response?.data?.token)

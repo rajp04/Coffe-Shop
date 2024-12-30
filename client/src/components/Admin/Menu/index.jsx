@@ -11,6 +11,7 @@ function AdminMenu() {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [permissions, setPermissions] = useState();
   const itemsPerPage = 12;
 
   const navigate = useNavigate()
@@ -83,6 +84,29 @@ function AdminMenu() {
     }
   }
 
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      try {
+        const token = sessionStorage.getItem('Admin');
+        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data.success === 1) {
+          setPermissions(response.data.permissions || {});
+        } else {
+          console.error('Failed to fetch permissions:', response.data.message);
+          setPermissions({});
+        }
+      } catch (error) {
+        console.error('Error fetching permissions:', error.message);
+        setPermissions({});
+      }
+    };
+
+    fetchPermissions();
+  }, []);
+
   return (
     <div className='pt-[90px] bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8'>
       <h1 className='text-3xl font-semibold pb-2 dark:text-white'>Gallery</h1>
@@ -124,7 +148,7 @@ function AdminMenu() {
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start min-w-80">DESCRIPTION</th>
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">CATEGORY</th>
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">PRICE</th>
-                  <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>
+                  {(permissions?.menu?.includes('edit') || permissions?.menu?.includes('delete')) && (<th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>)}
                 </tr>
               </thead>
               <tbody className='bg-[#1c243488]'>
@@ -136,12 +160,12 @@ function AdminMenu() {
                     </td>
                     <td className='bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start'>{item.category}</td>
                     <td className='bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start'>{item.price}</td>
-                    <td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
+                    {(permissions?.menu?.includes('edit') || permissions?.menu?.includes('delete')) && (<td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
                       <div className="bg-transparent flex items-center space-x-1">
-                        <HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/editmenu`, { state: item })} />
-                        <MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />
+                        {permissions?.menu?.includes('edit') && (<HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/editmenu`, { state: item })} />)}
+                        {permissions?.menu?.includes('delete') && (<MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />)}
                       </div>
-                    </td>
+                    </td>)}
                   </tr>
                 ))}
               </tbody>

@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { FiSearch } from "react-icons/fi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { AiOutlineMessage } from "react-icons/ai";
@@ -12,10 +12,12 @@ import { FaRegUser } from "react-icons/fa6";
 import { MdMenuOpen, MdSunny } from "react-icons/md";
 import { MyContext } from '..';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Header() {
 
   const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState();
   const { sidebarOpen, setSidebarOpen } = useContext(MyContext);
   const { themeMode, setThemeMode } = useContext(MyContext);
 
@@ -103,6 +105,27 @@ function Header() {
     },
   });
 
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      try {
+        const token = sessionStorage.getItem('Admin');
+        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data.success === 1) {
+          setData(response.data);
+        } else {
+          console.error('Failed to fetch permissions:', response.data.message);
+          setData({});
+        }
+      } catch (error) {
+        console.error('Error fetching permissions:', error.message);
+      }
+    };
+
+    fetchPermissions();
+  }, []);
 
   return (
     <div className='fixed h-[80px] header_width  bg-white dark:bg-[#1C2434] xxs:px-8 px-3 flex items-center justify-between text-[18px] text-gray-500'>
@@ -129,8 +152,7 @@ function Header() {
               <button type="button" onClick={handleClick}>
                 <div className='flex items-center lg:space-x-3 space-x-0'>
                   <div className='lg:flex hidden flex-col '>
-                    <h1 className='text-[#1c2434] dark:text-white'>Thomas Anree</h1>
-                    <p className='text-sm text-end dark:text-gray-200'>UX Designer</p>
+                    <h1 className='text-[#1c2434] dark:text-white'>{data?.role}</h1>
                   </div>
                   <div>
                     <img src="https://res.cloudinary.com/dtdlad1ud/image/upload/v1703938887/y18sqhaus4snghlhcscm.jpg" alt="Avatr" className='rounded-full h-12 w-12' />
@@ -149,7 +171,7 @@ function Header() {
                     </div>
                     <div className='flex items-center space-x-5 cursor-pointer hover:text-blue-500 duration-300'>
                       <BiLogOut />
-                      <h1 onClick={()=> {sessionStorage.removeItem('Admin'); navigate('/admin/login')}}>Log Out</h1>
+                      <h1 onClick={() => { sessionStorage.removeItem('Admin'); navigate('/admin/login') }}>Log Out</h1>
                     </div>
                   </div>
                 </Box>

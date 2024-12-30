@@ -95,6 +95,7 @@ import { useNavigate } from 'react-router-dom';
 
 function AdminTeamMember() {
     const [data, setData] = useState([]);
+    const [permissions, setPermissions] = useState();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -126,6 +127,29 @@ function AdminTeamMember() {
         }
     };
 
+    useEffect(() => {
+        const fetchPermissions = async () => {
+            try {
+                const token = sessionStorage.getItem('Admin');
+                const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+                    headers: { Authorization: `Bearer ${token}` },
+                });
+
+                if (response.data.success === 1) {
+                    setPermissions(response.data.permissions || {});
+                } else {
+                    console.error('Failed to fetch permissions:', response.data.message);
+                    setPermissions({});
+                }
+            } catch (error) {
+                console.error('Error fetching permissions:', error.message);
+                setPermissions({});
+            }
+        };
+
+        fetchPermissions();
+    }, []);
+
     return (
         <div className='pt-[90px] bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8'>
             <h1 className='text-3xl font-semibold pb-2 dark:text-white'>Team Members</h1>
@@ -142,7 +166,7 @@ function AdminTeamMember() {
                                     <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">Twitter</th>
                                     <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">LinkedIn</th>
                                     <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">Image</th>
-                                    <th className="px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">Action</th>
+                                    {(permissions?.hometeammember?.includes('edit') || permissions?.hometeammember?.includes('delete')) && (<th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>)}
                                 </tr>
                             </thead>
                             <tbody className='bg-[#1c243488]'>
@@ -165,12 +189,12 @@ function AdminTeamMember() {
                                         <td className='px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start'>
                                             <img src={item.image} alt="team" style={{ height: "50px", objectFit: "cover" }} />
                                         </td>
-                                        <td className="px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
-                                            <div className="flex items-center space-x-1">
-                                                <HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/home/editteam`, { state: item })} />
-                                                <MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />
+                                        {(permissions?.hometeammember?.includes('edit') || permissions?.hometeammember?.includes('delete')) && (<td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
+                                            <div className="bg-transparent flex items-center space-x-1">
+                                                {permissions?.hometeammember?.includes('edit') && (<HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/home/editteam`, { state: item })} />)}
+                                                {permissions?.hometeammember?.includes('delete') && (<MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />)}
                                             </div>
-                                        </td>
+                                        </td>)}
                                     </tr>
                                 ))}
                             </tbody>

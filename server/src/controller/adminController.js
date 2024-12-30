@@ -1,7 +1,8 @@
 const express = require('express');
-const { Role, Admin } = require('../models/adminModel.js');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
+const { Role, Admin } = require('../models/adminModel.js');
 
 const router = express.Router();
 
@@ -19,27 +20,62 @@ const authenticate = async (req, res, next) => {
 };
 
 // Middleware for role-based access
-const authorize = (permissions) => {
+const authorize = (requiredPermissions) => {
     return async (req, res, next) => {
-        const admin = await Admin.findById(req.admin._id).populate('role');
-        // if (!admin || !admin.role.permissions.some(p => permissions.includes(p))) {
-        //     return res.status(403).send('Permission Denied');
-        // }
-        if (!admin || (!admin.role.permissions.includes('*') && !admin.role.permissions.some(p => permissions.includes(p)))) {
-            return res.status(403).send('Permission Denied');
+        try {
+            const admin = await Admin.findById(req.admin._id).populate('role');
+            if (!admin || !admin.role) {
+                return res.status(403).json({ error: "Admin role not found." });
+            }
+
+            const rolePermissions = admin.role.permissions || new Map();
+            // console.log("Role Permissions (Map):", rolePermissions);
+
+            // Ensure required permissions are satisfied
+            const hasPermission = requiredPermissions.every(permission => {
+                const [section, action] = permission.split('_');                
+                const sectionPermissions = rolePermissions.get(section); 
+                return sectionPermissions?.includes(action) || sectionPermissions?.includes('*');
+            });
+
+            // console.log("Has Permission:", hasPermission);
+
+            if (!hasPermission) {
+                return res.status(403).json({ error: "You do not have the required permissions." });
+            }
+
+            next();
+        } catch (error) {
+            console.error("Authorization error:", error);
+            return res.status(500).json({ error: "Internal Server Error" });
         }
-        next();
     };
 };
+
 
 // Default admin setup
 const setupDefaultAdmin = async () => {
     try {
-        const defaultRole = await Role.findOneAndUpdate(
-            { name: 'Admin' },
-            { $setOnInsert: { permissions: ['*'] } },
-            { new: true, upsert: true }
-        );
+        let defaultRole = await Role.findOne({ name: 'Admin' });
+        if (!defaultRole) {
+            defaultRole = await Role.create({
+                name: 'Admin',
+                permissions: {
+                    role: ['add', 'view', 'edit', 'delete'],
+                    menu: ['add', 'view', 'edit', 'delete'],
+                    service: ['add', 'view', 'edit', 'delete'],
+                    contact: ['add', 'view', 'edit', 'delete'],
+                    hometeammember: ['add', 'view', 'edit', 'delete'],
+                    hometestimonial: ['add', 'view', 'edit', 'delete'],
+                    homebanner: ['add', 'view', 'edit', 'delete'],
+                    blog: ['add', 'view', 'edit', 'delete'],
+                    dashboard: ['add', 'view', 'edit', 'delete'],
+                    booking: ['add', 'view', 'edit', 'delete'],
+                    gallery: ['add', 'view', 'edit', 'delete'],
+                    admins: ['add', 'view', 'edit', 'delete'],
+                },
+            });
+        }
 
         const defaultAdmin = await Admin.findOne({ email: 'admin@example.com' });
         if (!defaultAdmin) {
@@ -48,7 +84,7 @@ const setupDefaultAdmin = async () => {
                 username: 'defaultAdmin',
                 email: 'admin@example.com',
                 password: hashedPassword,
-                role: defaultRole._id
+                role: defaultRole._id 
             });
         }
     } catch (err) {
@@ -60,18 +96,31 @@ setupDefaultAdmin();
 // API Routes
 
 // 1. Add a new role
-router.post('/roles', authenticate, authorize(['add_role']), async (req, res) => {
+router.post('/roles', authenticate, authorize(['role_add']), async (req, res) => {
     try {
         const { name, permissions } = req.body;
-        const role = await Role.create({ name, permissions });
-        res.status(201).json(role);
+
+        if (permissions && typeof permissions !== 'object') {
+            return res.status(400).json({ error: "Permissions must be an object with arrays as values." });
+        }
+
+        const formattedPermissions = Object.keys(permissions || {}).reduce((acc, key) => {
+            if (!Array.isArray(permissions[key])) {
+                throw new Error(`Permissions for ${key} must be an array of strings.`);
+            }
+            acc[key] = permissions[key];
+            return acc;
+        }, {});
+
+        const role = await Role.create({ name, permissions: formattedPermissions });
+        res.status(201).json({ role });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 });
 
 // 2. Get all roles
-router.get('/roles', authenticate, authorize(['view_roles']), async (req, res) => {
+router.get('/roles', authenticate, authorize(['role_view']), async (req, res) => {
     try {
         const roles = await Role.find();
         res.json(roles);
@@ -81,7 +130,7 @@ router.get('/roles', authenticate, authorize(['view_roles']), async (req, res) =
 });
 
 // 3. Add a new admin
-router.post('/admins', authenticate, authorize(['add_admin']), async (req, res) => {
+router.post('/admins', authenticate, authorize(['role_add']), async (req, res) => {
     try {
         const { username, email, password, role } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -93,21 +142,44 @@ router.post('/admins', authenticate, authorize(['add_admin']), async (req, res) 
 });
 
 // 4. Get all admins
-router.get('/admins', authenticate, authorize(['view_admins']), async (req, res) => {
+router.get('/admins', authenticate, authorize(['role_view']), async (req, res) => {
     try {
         const admins = await Admin.find().populate('role');
-        res.json(admins);
+        res.json({ admins, success: 1 });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }
 });
 
 // 5. Update role permissions
-router.put('/roles/:id', authenticate, authorize(['edit_role']), async (req, res) => {
+router.put('/roles/:id', authenticate, authorize(['role_edit']), async (req, res) => {
     try {
+        const id = req.params.id;
+        const isValidObjectId = mongoose.Types.ObjectId.isValid(id);
+
+        if (!isValidObjectId) {
+            return res.status(400).json({ error: "Invalid Role ID format" });
+        }
+
         const { permissions } = req.body;
-        const role = await Role.findByIdAndUpdate(req.params.id, { permissions }, { new: true });
-        if (!role) return res.status(404).send('Role not found');
+        const formattedPermissions = Object.keys(permissions || {}).reduce((acc, key) => {
+            if (!Array.isArray(permissions[key])) {
+                throw new Error(`Permissions for ${key} must be an array of strings.`);
+            }
+            acc[key] = permissions[key];
+            return acc;
+        }, {});
+
+        const role = await Role.findByIdAndUpdate(
+            id,
+            { permissions: formattedPermissions },
+            { new: true }
+        );
+
+        if (!role) {
+            return res.status(404).json({ error: "Role not found" });
+        }
+
         res.json(role);
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -122,7 +194,8 @@ router.post('/login', async (req, res) => {
         if (!admin || !(bcrypt.compare(password, admin.password))) {
             return res.status(400).send('Invalid credentials');
         }
-        const token = jwt.sign({ _id: admin._id, role: admin.role.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        const token = jwt.sign({ _id: admin._id, role: admin.role.name }, process.env.JWT_SECRET, { expiresIn: '1d' });
         res.json({ token, success: 1 });
     } catch (err) {
         res.status(400).json({ error: err.message });
@@ -134,7 +207,7 @@ router.get('/admin-panel', authenticate, async (req, res) => {
     try {
         const admin = await Admin.findById(req.admin._id).populate('role');
         if (!admin) return res.status(404).send('Admin not found');
-        res.json({ username: admin.username, role: admin.role.name, permissions: admin.role.permissions });
+        res.json({ username: admin.username, role: admin.role.name, permissions: admin.role.permissions, success: 1 });
     } catch (err) {
         res.status(400).json({ error: err.message });
     }

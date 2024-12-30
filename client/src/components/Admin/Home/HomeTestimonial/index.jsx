@@ -7,11 +7,12 @@ import { useNavigate } from 'react-router-dom';
 
 function AdminHomeTestimonial() {
   const [data, setData] = useState([]);
+  const [permissions, setPermissions] = useState();
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchMenu = async () => {
+    const fetchhometestimonial = async () => {
       try {
         const response = await axios.get('http://localhost:1101/api/testimonial');
 
@@ -24,7 +25,7 @@ function AdminHomeTestimonial() {
         console.error(error.message);
       }
     };
-    fetchMenu();
+    fetchhometestimonial();
   }, [data]);
 
   const handleDelete = async (id) => {
@@ -44,6 +45,29 @@ function AdminHomeTestimonial() {
     }
   }
 
+  useEffect(() => {
+    const fetchPermissions = async () => {
+      try {
+        const token = sessionStorage.getItem('Admin');
+        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        if (response.data.success === 1) {
+          setPermissions(response.data.permissions || {});
+        } else {
+          console.error('Failed to fetch permissions:', response.data.message);
+          setPermissions({});
+        }
+      } catch (error) {
+        console.error('Error fetching permissions:', error.message);
+        setPermissions({});
+      }
+    };
+
+    fetchPermissions();
+  }, []);
+
   return (
     <div className='pt-[90px] bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8'>
       <h1 className='text-3xl font-semibold pb-2 dark:text-white'>Testimonial</h1>
@@ -55,7 +79,7 @@ function AdminHomeTestimonial() {
                 <tr className="bg-transparent">
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start min-w-44">Name</th>
                   <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start min-w-80">DESCRIPTION</th>
-                  <th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>
+                  {(permissions?.hometestimonial?.includes('edit') || permissions?.hometestimonial?.includes('delete')) && (<th className="bg-transparent px-2 py-2 border-r dark:bg-gray-900 border-gray-600 text-start">ACTION</th>)}
                 </tr>
               </thead>
               <tbody className='bg-[#1c243488]'>
@@ -65,12 +89,12 @@ function AdminHomeTestimonial() {
                     <td className='bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start min-w-80'>
                       {item.description.length > 70 ? `${item.description.slice(0, 70)}...` : item.description}
                     </td>
-                    <td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
+                    {(permissions?.hometestimonial?.includes('edit') || permissions?.hometestimonial?.includes('delete')) && (<td className="bg-transparent px-2 py-2 border-r text-gray-200 dark:bg-gray-700 border-gray-600 text-start">
                       <div className="bg-transparent flex items-center space-x-1">
-                        <HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/home/edittestimonial`, { state: item })} />
-                        <MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />
+                        {permissions?.hometestimonial?.includes('edit') && (<HiPencil className="text-[#1a9f53] bg-[#ddfbe9] rounded-md cursor-pointer text-[26px] p-1" onClick={() => navigate(`/admin/home/edittestimonial`, { state: item })} />)}
+                        {permissions?.hometestimonial?.includes('delete') && (<MdDelete className="text-[#f11133] bg-[#ffdfe4] rounded-md cursor-pointer text-[26px] p-1" onClick={() => handleDelete(item._id)} />)}
                       </div>
-                    </td>
+                    </td>)}
                   </tr>
                 ))}
               </tbody>
