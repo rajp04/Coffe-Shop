@@ -181,7 +181,7 @@ function BlogDetails() {
                         {blogs.map((item, index) => (
                             <Link
                                 key={index}
-                                className='sm:flex lg:flex-row sm:flex-col justify-between lg:space-x-3 py-4 border-b xxs:col-span-1 col-span-2 overflow-hidden' to={`http://localhost:5173/blogs/blogdetails/${item._id}`} onClick={() => setSearchTerm('')}
+                                className='sm:flex lg:flex-row sm:flex-col justify-between lg:space-x-3 py-4 border-b xxs:col-span-1 col-span-2 overflow-hidden' to={`https://coffee-shop-pi-nine.vercel.app/blogs/blogdetails/${item._id}`} onClick={() => setSearchTerm('')}
                             >
                                 <img src={item.image} alt={item.title} className='lg:w-[60%]' />
                                 <div className='space-y-1 lg:w-[40%]'>
@@ -204,7 +204,7 @@ function BlogDetails() {
                                 .map((item, index) => (
                                     <Link
                                         className='sm:flex lg:flex-row sm:flex-col justify-between lg:space-x-3 py-4 border-b xxs:col-span-1 col-span-2 overflow-hidden'
-                                        key={index} to={`http://localhost:5173/blogs/blogdetails/${item._id}`}
+                                        key={index} to={`https://coffee-shop-pi-nine.vercel.app/blogs/blogdetails/${item._id}`}
                                     >
                                         <img src={item.image} alt={item.name} className='lg:w-[60%]' />
                                         <div className='space-y-1 lg:w-[40%]'>
