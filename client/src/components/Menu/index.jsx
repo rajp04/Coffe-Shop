@@ -22,7 +22,7 @@ function Menu() {
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const response = await axios.get('http://localhost:1101/api/menu');
+        const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/menu');
         if (response.data.success === 1) {
           setData(response.data.result);
           setFilteredData(response.data.result);

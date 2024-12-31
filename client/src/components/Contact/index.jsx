@@ -21,7 +21,7 @@ function Contact() {
         const data = { name, email, phone, subject, notes }
 
         try {
-            const response = await axios.post(`http://localhost:1101/api/contact/create`, data);
+            const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/contact/create`, data);
 
             if (response.data.success === 1) {
                 console.log(response.data);

@@ -10,7 +10,7 @@ function AddHomeTestimonial() {
     try {
       const data = { name, description }
 
-      const response = await axios.post(`http://localhost:1101/api/testimonial/create`, data);
+      const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/testimonial/create`, data);
       console.log(response);
 
       if (response.data?.success === 1) {

@@ -61,7 +61,7 @@ function EditRole() {
 
         try {
             const token = sessionStorage.getItem('Admin');
-            const id = state?.role._id; 
+            const id = state?.role._id;
             console.log(id);
 
             if (!id) {
@@ -70,7 +70,7 @@ function EditRole() {
             }
 
             const roleResponse = await axios.put(
-                `http://localhost:1101/api/admin/roles/${id}`,
+                `https://coffe-shop-btr1.onrender.com/api/admin/roles/${id}`,
                 payload,
                 {
                     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -103,7 +103,7 @@ function EditRole() {
         <div className="pt-[90px] h-screen bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8">
             <h1 className="text-3xl font-semibold pb-2 dark:text-white">Edit Role</h1>
             <div className="dark:bg-gray-700 bg-white rounded-md mt-10">
-                <div className="gap-5 rounded-md p-8">                  
+                <div className="gap-5 rounded-md p-8">
                     <div className='pt-3 space-y-3'>
                         <div className="col-span-2 w-full pb-5">
                             <label htmlFor="permissions" className="dark:text-white text-gray-800 font-semibold text-2xl">

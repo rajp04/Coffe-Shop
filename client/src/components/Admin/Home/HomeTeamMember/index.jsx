@@ -101,7 +101,7 @@ function AdminTeamMember() {
     useEffect(() => {
         const fetchTeamMembers = async () => {
             try {
-                const response = await axios.get('http://localhost:1101/api/team');
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/team');
                 if (response.data.success === 1) {
                     setData(response.data.result);
                 } else {
@@ -116,7 +116,7 @@ function AdminTeamMember() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:1101/api/team/delete/${id}`);
+            const response = await axios.delete(`https://coffe-shop-btr1.onrender.com/api/team/delete/${id}`);
             if (response?.data?.success === 1) {
                 setData((prevData) => prevData.filter((item) => item._id !== id));
             } else {
@@ -131,7 +131,7 @@ function AdminTeamMember() {
         const fetchPermissions = async () => {
             try {
                 const token = sessionStorage.getItem('Admin');
-                const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

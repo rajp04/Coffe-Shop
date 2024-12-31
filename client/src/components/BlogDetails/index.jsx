@@ -20,7 +20,7 @@ function BlogDetails() {
     useEffect(() => {
         const comment = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/comment/get/${id}`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/comment/get/${id}`);
                 if (response.data.success === 1) {
                     setData(response.data.result);
                 } else {
@@ -36,7 +36,7 @@ function BlogDetails() {
     useEffect(() => {
         const comment = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/blog`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/blog`);
                 if (response.data.success === 1) {
                     setBlog(response.data.result);
                 } else {
@@ -52,7 +52,7 @@ function BlogDetails() {
     useEffect(() => {
         const blogs = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/blog/${id}`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/blog/${id}`);
                 if (response.data.success === 1) {
                     setBlogData(response.data.result);
                 } else {
@@ -71,7 +71,7 @@ function BlogDetails() {
         const data = { name, email, comment, blogId: id }
 
         try {
-            const response = await axios.post(`http://localhost:1101/api/comment/create`, data);
+            const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/comment/create`, data);
 
             if (response.data.success === 1) {
                 // console.log(response.data);
@@ -89,7 +89,7 @@ function BlogDetails() {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/blog/blogs/search?title=${searchTerm}`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/blog/blogs/search?title=${searchTerm}`);
 
                 if (response?.data?.success === 1) {
                     setBlogs(response?.data?.blogs);

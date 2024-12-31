@@ -17,7 +17,7 @@ function Reservation() {
         const data = { name, email, phone, date, time, seats, notes }
 
         try {
-            const response = await axios.post(`http://localhost:1101/api/booking/create`, data);
+            const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/booking/create`, data);
 
             if (response.data.success === 1) {
                 console.log(response.data);

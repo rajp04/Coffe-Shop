@@ -21,7 +21,7 @@ function EditBlogs() {
             formData.append('category', category);
             if (image) formData.append('image', image);
 
-            const response = await axios.put(`http://localhost:1101/api/blog/update/${id}`, formData);
+            const response = await axios.put(`https://coffe-shop-btr1.onrender.com/api/blog/update/${id}`, formData);
 
             if (response.data?.success === 1) {
                 navigate('/admin/blog');

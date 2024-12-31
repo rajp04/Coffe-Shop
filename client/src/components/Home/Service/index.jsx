@@ -33,7 +33,7 @@ const Service = () => {
     useEffect(() => {
         const service = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/service`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/service`);
                 if (response.data.success === 1) {
                     // console.log(response.data);
                     setData(response.data.result)

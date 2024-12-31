@@ -18,7 +18,7 @@ function EditMenu() {
     try {
       const data = { name, description, category, price }
 
-      const response = await axios.put(`http://localhost:1101/api/menu/update/${id}`, data);
+      const response = await axios.put(`https://coffe-shop-btr1.onrender.com/api/menu/update/${id}`, data);
       
       if (response.data?.success === 1) {
         navigate('/admin/menu')

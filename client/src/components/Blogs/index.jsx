@@ -17,7 +17,7 @@ function Blogs() {
     useEffect(() => {
         const gallery = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/blog`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/blog`);
                 if (response.data.success === 1) {
                     setData(response.data.result);
                 } else {

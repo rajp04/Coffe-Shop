@@ -17,7 +17,7 @@ function AddBlogs() {
             formData.append('category', category);
             formData.append('image', image);
 
-            const response = await axios.post(`http://localhost:1101/api/blog/create`, formData, {
+            const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/blog/create`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

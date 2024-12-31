@@ -12,7 +12,7 @@ function AdminContact() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get('http://localhost:1101/api/contact');
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/contact');
                 if (response.data.success === 1) {
                     setData(response.data.result);
                     setFilteredData(response.data.result);

@@ -16,7 +16,7 @@ function EditHomeTestimonial() {
     try {
       const data = { name, description }
 
-      const response = await axios.put(`http://localhost:1101/api/testimonial/update/${id}`, data);
+      const response = await axios.put(`https://coffe-shop-btr1.onrender.com/api/testimonial/update/${id}`, data);
       
       if (response.data?.success === 1) {
         navigate('/admin/home/testimonial')

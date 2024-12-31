@@ -23,7 +23,7 @@ function AddHomeTeamMember() {
             formData.append('linkedin', linkedin);
             formData.append('image', image);
 
-            const response = await axios.post(`http://localhost:1101/api/team/create`, formData, {
+            const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/team/create`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -27,7 +27,7 @@ function EditTeamMember() {
       formData.append('linkedin', linkedin);
       if (image) formData.append('image', image);
 
-      const response = await axios.put(`http://localhost:1101/api/team/update/${id}`, formData, {
+      const response = await axios.put(`https://coffe-shop-btr1.onrender.com/api/team/update/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

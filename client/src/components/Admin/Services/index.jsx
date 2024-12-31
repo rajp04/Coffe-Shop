@@ -19,7 +19,7 @@ function AdminService() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:1101/api/service');
+        const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/service');
         if (response.data.success === 1) {
           setData(response.data.result);
           setFilteredData(response.data.result);
@@ -59,7 +59,7 @@ function AdminService() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:1101/api/service/delete/${id}`);
+      const response = await axios.delete(`https://coffe-shop-btr1.onrender.com/api/service/delete/${id}`);
       if (response?.data?.success === 1) {
         console.log(response.data.message);
       } else {
@@ -74,7 +74,7 @@ function AdminService() {
     const fetchPermissions = async () => {
       try {
         const token = sessionStorage.getItem('Admin');
-        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+        const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
           headers: { Authorization: `Bearer ${token}` },
         });
 

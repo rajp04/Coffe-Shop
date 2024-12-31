@@ -19,7 +19,7 @@ function AdminGallery() {
     useEffect(() => {
         const fetchMenu = async () => {
             try {
-                const response = await axios.get('http://localhost:1101/api/gallery');
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/gallery');
                 if (response.data.success === 1) {
                     setData(response.data.result);
                     setFilteredData(response.data.result);
@@ -72,7 +72,7 @@ function AdminGallery() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:1101/api/gallery/delete/${id}`);
+            const response = await axios.delete(`https://coffe-shop-btr1.onrender.com/api/gallery/delete/${id}`);
             if (response?.data?.success === 1) {
                 setData((prevData) => prevData.filter((item) => item._id !== id));
             } else {
@@ -87,7 +87,7 @@ function AdminGallery() {
         const fetchPermissions = async () => {
             try {
                 const token = sessionStorage.getItem('Admin');
-                const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

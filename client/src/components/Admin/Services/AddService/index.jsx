@@ -18,7 +18,7 @@ function AddService() {
             formData.append('image', image);
             formData.append('subImage', subImage);
 
-            const response = await axios.post(`http://localhost:1101/api/service/create`, formData, {
+            const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/service/create`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },

@@ -64,7 +64,7 @@ function AddRole() {
         try {
             const token = sessionStorage.getItem('Admin');
             const roleResponse = await axios.post(
-                'http://localhost:1101/api/admin/roles',
+                'https://coffe-shop-btr1.onrender.com/api/admin/roles',
                 payload,
                 {
                     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
@@ -80,7 +80,7 @@ function AddRole() {
             };
 
             const adminResponse = await axios.post(
-                'http://localhost:1101/api/admin/admins',
+                'https://coffe-shop-btr1.onrender.com/api/admin/admins',
                 newAdmin,
                 {
                     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },

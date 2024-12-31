@@ -19,7 +19,7 @@ function AdminBlogs() {
     useEffect(() => {
         const fetchblog = async () => {
             try {
-                const response = await axios.get('http://localhost:1101/api/blog');
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/blog');
                 if (response.data.success === 1) {
                     setData(response.data.result);
                     setFilteredData(response.data.result);
@@ -72,7 +72,7 @@ function AdminBlogs() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:1101/api/blog/delete/${id}`);
+            const response = await axios.delete(`https://coffe-shop-btr1.onrender.com/api/blog/delete/${id}`);
             if (response?.data?.success === 1) {
                 setData((prevData) => prevData.filter((item) => item._id !== id));
             } else {
@@ -87,7 +87,7 @@ function AdminBlogs() {
         const fetchPermissions = async () => {
             try {
                 const token = sessionStorage.getItem('Admin');
-                const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

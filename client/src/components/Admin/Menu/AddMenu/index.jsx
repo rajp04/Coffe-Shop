@@ -12,7 +12,7 @@ function AddMenu() {
     try {
       const data = { name, description, category, price }
 
-      const response = await axios.post(`http://localhost:1101/api/menu/create`, data);
+      const response = await axios.post(`https://coffe-shop-btr1.onrender.com/api/menu/create`, data);
       console.log(response);
 
       if (response.data?.success === 1) {

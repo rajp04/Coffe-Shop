@@ -14,7 +14,7 @@ function AdminNewRole() {
         const fetchrole = async () => {
             try {
                 const token = sessionStorage.getItem('Admin');
-                const response = await axios.get('http://localhost:1101/api/admin/admins', {
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admins', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -32,7 +32,7 @@ function AdminNewRole() {
 
     const handleDelete = async (id) => {
         try {
-            const response = await axios.delete(`http://localhost:1101/api/admin/delete/${id}`);
+            const response = await axios.delete(`https://coffe-shop-btr1.onrender.com/api/admin/delete/${id}`);
             if (response?.data?.success === 1) {
                 setData((prevData) => prevData.filter((item) => item._id !== id));
             } else {
@@ -47,7 +47,7 @@ function AdminNewRole() {
         const fetchPermissions = async () => {
             try {
                 const token = sessionStorage.getItem('Admin');
-                const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+                const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

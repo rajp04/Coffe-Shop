@@ -21,7 +21,7 @@ function Home() {
     useEffect(() => {
         const banner = async () => {
             try {
-                const response = await axios.get(`http://localhost:1101/api/banner`);
+                const response = await axios.get(`https://coffe-shop-btr1.onrender.com/api/banner`);
                 if (response.data.success === 1) {
                     setBanner(response.data.result);
                 } else {

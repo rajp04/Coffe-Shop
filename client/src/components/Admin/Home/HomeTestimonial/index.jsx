@@ -14,7 +14,7 @@ function AdminHomeTestimonial() {
   useEffect(() => {
     const fetchhometestimonial = async () => {
       try {
-        const response = await axios.get('http://localhost:1101/api/testimonial');
+        const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/testimonial');
 
         if (response.data.success === 1) {
           setData(response.data.result);
@@ -31,7 +31,7 @@ function AdminHomeTestimonial() {
   const handleDelete = async (id) => {
 
     try {
-      const response = await axios.delete(`http://localhost:1101/api/testimonial/delete/${id}`);
+      const response = await axios.delete(`https://coffe-shop-btr1.onrender.com/api/testimonial/delete/${id}`);
       console.log(response);
       if (response?.data?.success === 1) {
         console.log(response.data.message);
@@ -49,7 +49,7 @@ function AdminHomeTestimonial() {
     const fetchPermissions = async () => {
       try {
         const token = sessionStorage.getItem('Admin');
-        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+        const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
           headers: { Authorization: `Bearer ${token}` },
         });
 

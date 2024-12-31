@@ -21,7 +21,7 @@ function EditService() {
       if (image) formData.append('image', image);
       if (subImage) formData.append('subImage', subImage);
 
-      const response = await axios.put(`http://localhost:1101/api/service/update/${id}`, formData, {
+      const response = await axios.put(`https://coffe-shop-btr1.onrender.com/api/service/update/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 

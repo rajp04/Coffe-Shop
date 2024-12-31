@@ -109,7 +109,7 @@ function Header() {
     const fetchPermissions = async () => {
       try {
         const token = sessionStorage.getItem('Admin');
-        const response = await axios.get('http://localhost:1101/api/admin/admin-panel', {
+        const response = await axios.get('https://coffe-shop-btr1.onrender.com/api/admin/admin-panel', {
           headers: { Authorization: `Bearer ${token}` },
         });
 
