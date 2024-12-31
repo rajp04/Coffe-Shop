@@ -35,9 +35,9 @@ function TeamMember() {
                     </p>
                 </div>
             </div>
-            <div className="xxs:flex xxs:flex-row flex-col w-full items-center justify-start mt-5 sm:mt-10 lg:space-x-10 xxs:space-x-3 space-x-0 sm:space-y-0 space-y-3">
+            <div className="xs:flex xs:flex-row flex-col w-full items-center justify-start mt-5 sm:mt-10 lg:space-x-10 xxs:space-x-3 space-x-0 sm:space-y-0 space-y-3">
                 {data && data?.map((item, index) => (
-                    <div className="relative w-full sm:block flex  xxs:hidden  group xl:h-[500px] lg:h-[430px] md:h-[350px] sm:h-[250px] h-[400px]" key={index}>
+                    <div className="relative w-full flex group xl:h-[500px] lg:h-[430px] md:h-[350px] sm:h-[250px] h-[400px]" key={index}>
                         <img
                             className="absolute inset-0 w-full h-full object-cover"
                             src={item.image}

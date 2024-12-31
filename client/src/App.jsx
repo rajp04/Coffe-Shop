@@ -52,14 +52,14 @@ const App = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        if (response.data.success === 1) {
+        if (response?.data.success === 1) {
           setPermissions(response?.data?.permissions || {});
         } else {
-          console.error('Failed to fetch permissions:', response?.data.message);
+          // console.error('Failed to fetch permissions:', response?.data.message);
           setPermissions({});
         }
       } catch (error) {
-        console.error('Error fetching permissions:', error.message);
+        // console.error('Error fetching permissions:', error.message);
         setPermissions({});
       } finally {
         setIsLoading(false);
@@ -67,7 +67,7 @@ const App = () => {
     };
 
     fetchPermissions();
-  }, [permissions]);
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;
