@@ -116,7 +116,7 @@ function AddRole() {
         <div className="pt-[90px] h-screen bg-[#F1F5F9] dark:bg-gray-900 pb-8 px-8">
             <h1 className="text-3xl font-semibold pb-2 dark:text-white">Add New Role</h1>
             <div className="dark:bg-gray-700 bg-white rounded-md mt-5">
-                <div className="gap-5 rounded-md p-8">
+                <div className="gap-5 rounded-md xxs:p-8 p-2">
                     <div className="md:w-[50%] sm:w-[70%] w-full space-y-2">
                         <label htmlFor="name" className="dark:text-white text-gray-800 font-semibold text-2xl">Name :-</label>
                         <input
@@ -136,25 +136,26 @@ function AddRole() {
 
                         {/* Permissions Section */}
                         {Object.keys(permissions).map((section) => (
-                            <div key={section} className='space-x-10 flex items-center font-semibold'>
-                                <label className="dark:text-white w-[250px] text-gray-800 font-semibold text-2xl">
+                            <div key={section} className='flex md:flex-row flex-col md:items-center font-semibold'>
+                                <label className="dark:text-white xxs:w-[250px] text-gray-800 font-semibold text-2xl">
                                     {section.charAt(0).toUpperCase() + section.slice(1)} :-
                                 </label>
-
-                                {['all', 'view', 'edit', 'add', 'delete'].map((key) => (
-                                    <div key={key} className='flex items-center justify-center space-x-2'>
-                                        <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
-                                        <input
-                                            type="checkbox"
-                                            checked={permissions[section][key]}
-                                            onChange={() =>
-                                                key === 'all'
-                                                    ? handleAllCheck(section)
-                                                    : handleIndividualCheck(section, key)
-                                            }
-                                        />
-                                    </div>
-                                ))}
+                                <div className='xs:flex grid grid-cols-2 xl:space-x-10 xs:space-x-5 xs:space-y-0 space-y-1'>
+                                    {['all', 'view', 'edit', 'add', 'delete'].map((key) => (
+                                        <div key={key} className='xs:flex col-span-1 items-center justify-center space-x-2'>
+                                            <label htmlFor={key}>{key.charAt(0).toUpperCase() + key.slice(1)}</label>
+                                            <input
+                                                type="checkbox"
+                                                checked={permissions[section][key]}
+                                                onChange={() =>
+                                                    key === 'all'
+                                                        ? handleAllCheck(section)
+                                                        : handleIndividualCheck(section, key)
+                                                }
+                                            />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                         ))}
                     </div>
@@ -179,9 +180,6 @@ function AddRole() {
                                         <FaEye className='bg-transparent text-xl hover:text-gray-700 cursor-pointer' />
                                 }
                             </div>
-                        </div>
-                        <div className='bg-white flex items-center hover:text-blue-500 transition-all justify-center rounded-md px-3 py-1 w-full text-gray-700 '>
-
                         </div>
                     </div>
                 </div>
